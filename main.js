@@ -38,7 +38,7 @@ function updateFormData(doc) {
     userForm.addEventListener('submit', (event) => {
         event.preventDefault();
         const editedUsername = document.getElementById('username').value;
-                const editedUsername = document.getElementById('instaUsername').value;
+                const editedInstaUsername = document.getElementById('instaUsername').value;
 
         const editedAddress = document.getElementById('address').value;
         const editedBannerUrl = document.getElementById('bannerUrl').value;
@@ -85,7 +85,7 @@ function handleSubmit(event) {
     event.preventDefault();
     // Get the values from the form
     const username = document.getElementById('username').value;
-        const username = document.getElementById('instaUsername').value;
+        const instaUsername = document.getElementById('instaUsername').value;
 
     const address = document.getElementById('address').value;
     const bannerUrl = document.getElementById('bannerUrl').value;
