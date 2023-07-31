@@ -22,6 +22,7 @@ const userData = document.getElementById('userData');
 // Function to update form data for editing
 function updateFormData(doc) {
     document.getElementById('username').value = doc.data().username;
+      document.getElementById('instaUsername').value = doc.data().instaUsername;
     document.getElementById('address').value = doc.data().address;
     document.getElementById('bannerUrl').value = doc.data().bannerUrl;
     document.getElementById('direction').value = doc.data().direction;
@@ -37,6 +38,8 @@ function updateFormData(doc) {
     userForm.addEventListener('submit', (event) => {
         event.preventDefault();
         const editedUsername = document.getElementById('username').value;
+                const editedUsername = document.getElementById('instaUsername').value;
+
         const editedAddress = document.getElementById('address').value;
         const editedBannerUrl = document.getElementById('bannerUrl').value;
         const editedDirection = document.getElementById('direction').value;
@@ -52,6 +55,8 @@ function updateFormData(doc) {
             .doc(doc.id)
             .update({
                 username: editedUsername,
+                                instaUsername: editedInstaUsername,
+
                 address: editedAddress,
                 bannerUrl: editedBannerUrl,
                 direction: editedDirection,
@@ -80,6 +85,8 @@ function handleSubmit(event) {
     event.preventDefault();
     // Get the values from the form
     const username = document.getElementById('username').value;
+        const username = document.getElementById('instaUsername').value;
+
     const address = document.getElementById('address').value;
     const bannerUrl = document.getElementById('bannerUrl').value;
     const direction = document.getElementById('direction').value;
@@ -94,6 +101,8 @@ function handleSubmit(event) {
     db.collection('users')
         .add({
             username: username,
+                        instaUsername: instaUsername,
+
             address: address,
             bannerUrl: bannerUrl,
             direction: direction,
@@ -123,6 +132,7 @@ function displayUserData(doc) {
 
     const fields = [
         'username',
+        'instaUsername',
         'address',
         'bannerUrl',
         'direction',
