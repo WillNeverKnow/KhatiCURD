@@ -150,27 +150,24 @@ function displayUserData(doc) {
         'toggle',
     ];
 
-    fields.forEach((field) => {
-    const td = document.createElement('td');
-    const data = doc.data()[field];
+   fields.forEach((field) => {
+        const td = document.createElement('td');
+        const data = doc.data()[field];
 
-    fields.forEach((field) => {
-    const td = document.createElement('td');
-    const data = doc.data()[field];
-
-    if (field === 'menu_photos' || field === 'post_photos') {
-        if (Array.isArray(data)) {
-            // Store the original array data (without spaces) as an attribute
-            td.setAttribute('data-value', JSON.stringify(data));
-            td.textContent = data.join(','); // Display data with spaces in the table cell
+        if (field === 'menu_photos' || field === 'post_photos') {
+            if (Array.isArray(data)) {
+                // Remove extra spaces after commas and store the cleaned data as an attribute
+                const cleanedData = data.map(item => item.trim());
+                td.setAttribute('data-value', JSON.stringify(cleanedData));
+                td.textContent = cleanedData.join(','); // Display cleaned data with spaces in the table cell
+            } else {
+                td.textContent = '';
+            }
         } else {
-            td.textContent = '';
+            td.textContent = data || ''; // Handle case when data is undefined or null
         }
-    } else {
-        td.textContent = data || ''; // Handle case when data is undefined or null
-    }
-    tr.appendChild(td);
-});
+        tr.appendChild(td);
+    });
 
     // Add action buttons
     const editButton = document.createElement('button');
