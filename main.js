@@ -43,10 +43,10 @@ function updateFormData(doc) {
         const editedAddress = document.getElementById('address').value;
         const editedBannerUrl = document.getElementById('bannerUrl').value;
         const editedDirection = document.getElementById('direction').value;
-        const editedMenuPhotos = document.getElementById('menu_photos').value.split(',');
+        const editedMenuPhotos = document.getElementById('menu_photos').value.split(',').map(item => item.trim()); // Remove extra spaces
         const editedPerTwoPersonCost = document.getElementById('per_two_person_cost').value;
         const editedPlace = document.getElementById('place').value;
-        const editedPostPhotos = document.getElementById('post_photos').value.split(',');
+        const editedPostPhotos = document.getElementById('post_photos').value.split(',').map(item => item.trim()); // Remove extra spaces
         const editedPhoto = document.getElementById('photo').value;
         const editedToggle = document.getElementById('toggle').checked; // Get the checkbox value as a boolean
 
