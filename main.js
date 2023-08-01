@@ -129,12 +129,13 @@ userForm.addEventListener('submit', handleSubmit);;
 // Fetch data from Firestore and display it in a table format
 function displayUserData(doc) {
     const tr = document.createElement('tr');
-
-    // Create a new column for the UID and populate it with the UID value
+    
+    // Add a new column for the document UID
     const uidTd = document.createElement('td');
-    uidTd.textContent = doc.id;
+    uidTd.textContent = doc.id; // Set the text content of the cell to the document UID
     tr.appendChild(uidTd);
 
+    // Add other columns for user data
     const fields = [
         'username',
         'instaUsername',
@@ -155,7 +156,7 @@ function displayUserData(doc) {
 
         if (field === 'menu_photos' || field === 'post_photos') {
             if (Array.isArray(data)) {
-                td.textContent = data.join(',');
+                td.textContent = data.join(', ');
             } else {
                 td.textContent = '';
             }
@@ -165,6 +166,7 @@ function displayUserData(doc) {
         tr.appendChild(td);
     });
 
+    // Add action buttons
     const editButton = document.createElement('button');
     editButton.textContent = 'Edit';
     editButton.setAttribute('class', 'btn btn-secondary');
@@ -196,7 +198,6 @@ function displayUserData(doc) {
 
     userData.appendChild(tr);
 }
-
 // Fetch data from Firestore collection 'users' and display it in the table
 db.collection('users')
     .get()
