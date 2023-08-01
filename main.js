@@ -162,7 +162,7 @@ function displayUserData(doc) {
         if (Array.isArray(data)) {
             // Store the original array data (without spaces) as an attribute
             td.setAttribute('data-value', JSON.stringify(data));
-            td.textContent = data.join(', '); // Display data with spaces in the table cell
+            td.textContent = data.join(','); // Display data with spaces in the table cell
         } else {
             td.textContent = '';
         }
