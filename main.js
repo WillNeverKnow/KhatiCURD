@@ -130,6 +130,11 @@ userForm.addEventListener('submit', handleSubmit);;
 function displayUserData(doc) {
     const tr = document.createElement('tr');
 
+    // Create a new column for the UID and populate it with the UID value
+    const uidTd = document.createElement('td');
+    uidTd.textContent = doc.id;
+    tr.appendChild(uidTd);
+
     const fields = [
         'username',
         'instaUsername',
@@ -150,7 +155,7 @@ function displayUserData(doc) {
 
         if (field === 'menu_photos' || field === 'post_photos') {
             if (Array.isArray(data)) {
-                td.textContent = data.join(', ');
+                td.textContent = data.join(',');
             } else {
                 td.textContent = '';
             }
@@ -200,3 +205,22 @@ db.collection('users')
             displayUserData(doc);
         });
     });
+// Function to handle the search operation
+function handleSearch() {
+    const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
+    const tableRows = userData.getElementsByTagName('tr');
+
+    for (let i = 1; i < tableRows.length; i++) { // Start from index 1 to skip the table header row
+        const row = tableRows[i];
+        const rowData = row.textContent.toLowerCase();
+
+        if (rowData.includes(searchInput)) {
+            row.style.display = ''; // Show the row if it matches the search input
+        } else {
+            row.style.display = 'none'; // Hide the row if it doesn't match the search input
+        }
+    }
+}
+
+// Attach an event listener to the search button
+document.getElementById('searchButton').addEventListener('click', handleSearch);
