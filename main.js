@@ -156,7 +156,7 @@ function displayUserData(doc) {
 
         if (field === 'menu_photos' || field === 'post_photos') {
             if (Array.isArray(data)) {
-                td.textContent = data.join(',');
+                td.textContent = data.join('');
             } else {
                 td.textContent = '';
             }
