@@ -154,11 +154,15 @@ function displayUserData(doc) {
     const td = document.createElement('td');
     const data = doc.data()[field];
 
+    fields.forEach((field) => {
+    const td = document.createElement('td');
+    const data = doc.data()[field];
+
     if (field === 'menu_photos' || field === 'post_photos') {
         if (Array.isArray(data)) {
-            const joinedData = data.join('');
-            td.textContent = joinedData;
-            td.setAttribute('data-value', joinedData); // Store the original data without spaces as an attribute
+            // Store the original array data (without spaces) as an attribute
+            td.setAttribute('data-value', JSON.stringify(data));
+            td.textContent = data.join(', '); // Display data with spaces in the table cell
         } else {
             td.textContent = '';
         }
