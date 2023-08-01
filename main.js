@@ -151,18 +151,22 @@ function displayUserData(doc) {
     ];
 
     fields.forEach((field) => {
-        const td = document.createElement('td');
-        const data = doc.data()[field];
+    const td = document.createElement('td');
+    const data = doc.data()[field];
 
-        if (field === 'menu_photos' || field === 'post_photos') {
-            if (Array.isArray(data)) {
-                td.textContent = data.join('');
-            } 
+    if (field === 'menu_photos' || field === 'post_photos') {
+        if (Array.isArray(data)) {
+            const joinedData = data.join('');
+            td.textContent = joinedData;
+            td.setAttribute('data-value', joinedData); // Store the original data without spaces as an attribute
         } else {
-            td.textContent = data || ''; // Handle case when data is undefined or null
+            td.textContent = '';
         }
-        tr.appendChild(td);
-    });
+    } else {
+        td.textContent = data || ''; // Handle case when data is undefined or null
+    }
+    tr.appendChild(td);
+});
 
     // Add action buttons
     const editButton = document.createElement('button');
