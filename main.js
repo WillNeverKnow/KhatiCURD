@@ -30,8 +30,13 @@ function updateFormData(doc) {
     document.getElementById('per_two_person_cost').value = doc.data().per_two_person_cost;
     document.getElementById('place').value = doc.data().place;
     document.getElementById('post_photos').value = doc.data().post_photos.join(', ');
+    document.getElementById('vibe_photos').value = doc.data().post_photos.join(', ');
+
     document.getElementById('photo').value = doc.data().photo;
-    document.getElementById('toggle').checked = doc.data().toggle; // Set the checkbox based on the boolean value
+    document.getElementById('toggle').checked = doc.data().toggle;
+    
+    
+    // Set the checkbox based on the boolean value
 
     // Remove the previous submit event listener and add a new one for updating data
     userForm.removeEventListener('submit', handleSubmit);
@@ -44,19 +49,23 @@ function updateFormData(doc) {
         const editedBannerUrl = document.getElementById('bannerUrl').value;
         const editedDirection = document.getElementById('direction').value;
         const editedMenuPhotos = document.getElementById('menu_photos').value.split(',').map(item => item.trim()); // Remove extra spaces
+        const editedVibePhotos = document.getElementById('vibe_photos').value.split(',').map(item => item.trim()); // Remove extra spaces
+
         const editedPerTwoPersonCost = document.getElementById('per_two_person_cost').value;
         const editedPlace = document.getElementById('place').value;
         const editedPostPhotos = document.getElementById('post_photos').value.split(',').map(item => item.trim()); // Remove extra spaces
         const editedPhoto = document.getElementById('photo').value;
         const editedToggle = document.getElementById('toggle').checked; // Get the checkbox value as a boolean
-
+        const directionInput = document.getElementById('coordinates').value;
+        const [latitude, longitude] = directionInput.split(',').map(item => item.trim());
+        
         // Update the Firestore document with the edited data
         db.collection('users')
             .doc(doc.id)
             .update({
                 username: editedUsername,
-                                instaUsername: editedInstaUsername,
-
+                instaUsername: editedInstaUsername,
+                vibe_photos:editedVibePhotos,
                 address: editedAddress,
                 bannerUrl: editedBannerUrl,
                 direction: editedDirection,
@@ -66,6 +75,10 @@ function updateFormData(doc) {
                 post_photos: editedPostPhotos,
                 photo: editedPhoto,
                 toggle: editedToggle,
+                coordinates: { // Store coordinates object
+                    latitude: parseFloat(latitude),
+                    longitude: parseFloat(longitude)
+                },
             })
             .then(() => {
                 alert('Data successfully updated!');
@@ -101,7 +114,7 @@ function handleSubmit(event) {
     db.collection('users')
         .add({
             username: username,
-                        instaUsername: instaUsername,
+            instaUsername: instaUsername,
 
             address: address,
             bannerUrl: bannerUrl,
