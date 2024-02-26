@@ -10,62 +10,51 @@ const firebaseConfig = {
     measurementId: "G-JW5PHGM5RC"
 };
 firebase.initializeApp(firebaseConfig);
-
-// Initialize Firestore
 const db = firebase.firestore();
-// Initialize Firebase with your project's configuration (you should have already done this before)
-// ...
 
 const userForm = document.getElementById('userForm');
 const userData = document.getElementById('userData');
 
 // Function to update form data for editing
 function updateFormData(doc) {
-    document.getElementById('username').value = doc.data().username;
-      document.getElementById('instaUsername').value = doc.data().instaUsername;
-    document.getElementById('address').value = doc.data().address;
-    document.getElementById('bannerUrl').value = doc.data().bannerUrl;
-    document.getElementById('direction').value = doc.data().direction;
-    document.getElementById('menu_photos').value = doc.data().menu_photos.join(', ');
-    document.getElementById('per_two_person_cost').value = doc.data().per_two_person_cost;
-    document.getElementById('place').value = doc.data().place;
-    document.getElementById('post_photos').value = doc.data().post_photos.join(', ');
-    document.getElementById('vibe_photos').value = doc.data().post_photos.join(', ');
+    document.getElementById('username').value = doc.data().username || '';
+    document.getElementById('instaUsername').value = doc.data().instaUsername || '';
+    document.getElementById('address').value = doc.data().address || '';
+    document.getElementById('bannerUrl').value = doc.data().bannerUrl || '';
+    document.getElementById('direction').value = doc.data().direction || '';
+    document.getElementById('menu_photos').value = (doc.data().menu_photos || []).join(', ');
+    document.getElementById('per_two_person_cost').value = doc.data().per_two_person_cost || '';
+    document.getElementById('place').value = doc.data().place || '';
+    document.getElementById('post_photos').value = (doc.data().post_photos || []).join(', ');
+    document.getElementById('vibe_photos').value = (doc.data().vibe_photos || []).join(', ');
+    document.getElementById('photo').value = doc.data().photo || '';
+    document.getElementById('toggle').checked = doc.data().toggle || false;
 
-    document.getElementById('photo').value = doc.data().photo;
-    document.getElementById('toggle').checked = doc.data().toggle;
-    
-    
-    // Set the checkbox based on the boolean value
-
-    // Remove the previous submit event listener and add a new one for updating data
     userForm.removeEventListener('submit', handleSubmit);
     userForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        const editedUsername = document.getElementById('username').value;
-                const editedInstaUsername = document.getElementById('instaUsername').value;
+        const editedUsername = document.getElementById('username').value || '';
+        const editedInstaUsername = document.getElementById('instaUsername').value || '';
+        const editedAddress = document.getElementById('address').value || '';
+        const editedBannerUrl = document.getElementById('bannerUrl').value || '';
+        const editedDirection = document.getElementById('direction').value || '';
+        const editedMenuPhotos = document.getElementById('menu_photos').value.split(',').map(item => item.trim());
+        const editedVibePhotos = document.getElementById('vibe_photos').value.split(',').map(item => item.trim());
+        const editedPerTwoPersonCost = document.getElementById('per_two_person_cost').value || '';
+        const editedPlace = document.getElementById('place').value || '';
+        const editedPostPhotos = document.getElementById('post_photos').value.split(',').map(item => item.trim());
+        const editedPhoto = document.getElementById('photo').value || '';
+        const editedToggle = document.getElementById('toggle').checked;
 
-        const editedAddress = document.getElementById('address').value;
-        const editedBannerUrl = document.getElementById('bannerUrl').value;
-        const editedDirection = document.getElementById('direction').value;
-        const editedMenuPhotos = document.getElementById('menu_photos').value.split(',').map(item => item.trim()); // Remove extra spaces
-        const editedVibePhotos = document.getElementById('vibe_photos').value.split(',').map(item => item.trim()); // Remove extra spaces
-
-        const editedPerTwoPersonCost = document.getElementById('per_two_person_cost').value;
-        const editedPlace = document.getElementById('place').value;
-        const editedPostPhotos = document.getElementById('post_photos').value.split(',').map(item => item.trim()); // Remove extra spaces
-        const editedPhoto = document.getElementById('photo').value;
-        const editedToggle = document.getElementById('toggle').checked; // Get the checkbox value as a boolean
         const directionInput = document.getElementById('coordinates').value;
         const [latitude, longitude] = directionInput.split(',').map(item => item.trim());
-        
-        // Update the Firestore document with the edited data
+
         db.collection('users')
             .doc(doc.id)
             .update({
                 username: editedUsername,
                 instaUsername: editedInstaUsername,
-                vibe_photos:editedVibePhotos,
+                vibe_photos: editedVibePhotos,
                 address: editedAddress,
                 bannerUrl: editedBannerUrl,
                 direction: editedDirection,
@@ -75,7 +64,7 @@ function updateFormData(doc) {
                 post_photos: editedPostPhotos,
                 photo: editedPhoto,
                 toggle: editedToggle,
-                coordinates: { // Store coordinates object
+                coordinates: {
                     latitude: parseFloat(latitude),
                     longitude: parseFloat(longitude)
                 },
@@ -96,26 +85,28 @@ function updateFormData(doc) {
 // Function to handle form submission for new data
 function handleSubmit(event) {
     event.preventDefault();
-    // Get the values from the form
-    const username = document.getElementById('username').value;
-        const instaUsername = document.getElementById('instaUsername').value;
 
-    const address = document.getElementById('address').value;
-    const bannerUrl = document.getElementById('bannerUrl').value;
-    const direction = document.getElementById('direction').value;
-    const menu_photos = document.getElementById('menu_photos').value.split(',');
-    const per_two_person_cost = document.getElementById('per_two_person_cost').value;
-    const place = document.getElementById('place').value;
-    const post_photos = document.getElementById('post_photos').value.split(',');
-    const photoUrl = document.getElementById('photoUrl').value;
-    const toggle = !document.getElementById('toggle').checked; // Get the checkbox value as a boolean
+    const username = document.getElementById('username').value || '';
+    const instaUsername = document.getElementById('instaUsername').value || '';
+    const address = document.getElementById('address').value || '';
+    const bannerUrl = document.getElementById('bannerUrl').value || '';
+    const direction = document.getElementById('direction').value || '';
+    const menu_photos = document.getElementById('menu_photos').value.split(',').map(item => item.trim());
+    const per_two_person_cost = document.getElementById('per_two_person_cost').value || '';
+    const place = document.getElementById('place').value || '';
+    const vibe_photos = document.getElementById('vibe_photos').value.split(',').map(item => item.trim());
 
-    // Store the data in Firestore
+    const post_photos = document.getElementById('post_photos').value.split(',').map(item => item.trim());
+    const photoUrl = document.getElementById('photoUrl').value || '';
+    const toggle = !document.getElementById('toggle').checked;
+    const directionInput = document.getElementById('coordinates').value||'';
+    const [latitude, longitude] = directionInput.split(',').map(item => item.trim());
+
+
     db.collection('users')
         .add({
             username: username,
             instaUsername: instaUsername,
-
             address: address,
             bannerUrl: bannerUrl,
             direction: direction,
@@ -125,7 +116,13 @@ function handleSubmit(event) {
             post_photos: post_photos,
             photoUrl: photoUrl,
             toggle: toggle,
+            vibe_photos: vibe_photos,
+
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            coordinates: {
+                latitude: parseFloat(latitude),
+                longitude: parseFloat(longitude)
+            },
         })
         .then(() => {
             alert('Data successfully submitted!');
@@ -137,8 +134,7 @@ function handleSubmit(event) {
         });
 }
 
-userForm.addEventListener('submit', handleSubmit);;
-
+userForm.addEventListener('submit', handleSubmit);
 // Fetch data from Firestore and display it in a table format
 function displayUserData(doc) {
     const tr = document.createElement('tr');
