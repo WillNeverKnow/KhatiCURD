@@ -1,13 +1,13 @@
 // Initialize Firebase with your project's configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyDAAlQUSqHUBr_cTRNFKtVzV9vkKJQt6wQ",
-    authDomain: "khati-app.firebaseapp.com",
-    databaseURL: "https://khati-app-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "khati-app",
-    storageBucket: "khati-app.appspot.com",
-    messagingSenderId: "675664862411",
-    appId: "1:675664862411:web:d32ce4914638ac95014f4e",
-    measurementId: "G-JW5PHGM5RC"
+  apiKey: "AIzaSyBbUoKsSovN14loWebbG-TjDBFd-cORC9M",
+  authDomain: "khati-66403.firebaseapp.com",
+  databaseURL: "https://khati-66403-default-rtdb.firebaseio.com",
+  projectId: "khati-66403",
+  storageBucket: "khati-66403.appspot.com",
+  messagingSenderId: "806817050418",
+  appId: "1:806817050418:web:ff8fcab325574e2292f12b",
+  measurementId: "G-B0M0JS7T5X"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
